@@ -1,0 +1,22 @@
+<html>
+<head>
+</head>
+<body>
+	<form method="post" action="<%=baseUrl%>">
+	<input type="hidden" name="row[id]" value="<%=row.id%>">
+	<table border="1">
+		<tr>
+			<th>id</th>
+			<th><%=_.get(row,"id")%></th>
+		</tr>
+<% _.each(fields, function(field,key){%>
+		<tr>
+			<th><%=key%></th>
+			<th><%-renderEdit (row, key)%></th>
+		</tr>		
+<%})%>
+	</table>
+	<input type="submit" value="save">
+	</form>
+</body>
+</html>
