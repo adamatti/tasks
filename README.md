@@ -13,7 +13,8 @@
             * default values - DONE
 		* list   - WIP
 			* filter
-			* sort   
+			* sort  
+            * Sum?
 		* delete - DONE
 	* render (boolean, password, date with calendar, etc)
 	* derived fields

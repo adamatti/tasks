@@ -19,7 +19,7 @@
 		<tr>
 			<td><a href="<%=baseUrl + '/' + id%>">id</a></td>
 <% _.each(fields, function(field,key){%>
-			<td><%=renderView(_.get(row,key), field)%></td>
+			<td><%-renderView(_.get(row,key), field)%></td>
 <%})%>		
 			<td><%=renderView(row.createdOn,'date')%></td>
 			<td><%=renderView(row.updatedOn,'date')%></td>
