@@ -1,6 +1,7 @@
 'use strict';
 
-const Type = require('./lib').Type;
+const Type = require('./lib').Type,
+      moment = require('moment');
 
 function getTaskTree(task,dependencies){
     if (!task.parent){
@@ -11,6 +12,7 @@ function getTaskTree(task,dependencies){
     }
 }
 
+var now = moment().format('MM/DD/YYYY'); 
 var models = [
 	{
 		name    : "person",
@@ -50,7 +52,7 @@ var models = [
 		name : "timeEntry",
 		endpoint : "timeEntries",
 		fields : {
-			dt          : Type().date().required().defaultValue("03/22/2016"),
+			dt          : Type().date().required().defaultValue(now),
 			task        : Type().ref("task"),
 			type        : Type().ref("taskType"),
 			hrs         : Type().number().required(),
@@ -60,3 +62,4 @@ var models = [
 ]
 
 require("./processors/CrudProcessor").register(models);
+require("./processors/RestProcessor").register(models);

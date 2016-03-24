@@ -26,7 +26,7 @@ function loadDependencies(modelToLoadDependencies,models){
 	}))
 	.then (list => {
 		return _.reduce(list, (obj, it) =>{
-			logger.trace("Reduce %s",it.name);
+			logger.trace("loadDependencies: reduce [name: %s]",it.name);
 			obj[it.endpoint] = it.list;
 			return obj;
 		}, {});
@@ -52,8 +52,9 @@ function register(models){
 				//logger.trace("dependencies",dependencies);
 				scope.dependencies = dependencies;
 				return persistence.list(model.endpoint);	
-			})
-			.then ( (rows) => {
+			}).then ( rows => {
+                return _.filter(rows,req.query); 
+            }).then ( rows => {
 				res.render('crud/list',{
 					"_" : _,
 					renderView: render.renderView(scope.dependencies),
@@ -119,6 +120,4 @@ function register(models){
 	});
 }
 
-module.exports = {
-	register : register
-}
+module.exports = { register }

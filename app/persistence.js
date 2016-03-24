@@ -39,7 +39,7 @@ function restoreDB(){
                 logger.warn("Error restoring database. Maybe it is missing?",error);  
             });
         } else {
-            logger.info("No db file to restore");
+            logger.info("No db file to restore [file: %s]", config.fileStore);
         }
     })     
 }

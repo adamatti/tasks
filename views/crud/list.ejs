@@ -15,17 +15,19 @@
 		</tr>
 	</thead>
 	<tbody>
-<% _.each(rows, function(row,id){%>	
+<% _.each(rows, function(row){%>	
 		<tr>
-			<td><a href="<%=baseUrl + '/' + id%>">id</a></td>
+			<td>
+                <a href="<%=baseUrl + '/' + row.id%>">id</a>
+            </td>
 <% _.each(fields, function(field,key){%>
 			<td><%-renderView(_.get(row,key), field)%></td>
 <%})%>		
 			<td><%=renderView(row.createdOn,'date')%></td>
 			<td><%=renderView(row.updatedOn,'date')%></td>
 			<td>
-				<a href="<%=baseUrl + '/' + id%>">edit</a> |
-				<a href="<%=baseUrl + '/' + id%>/delete">delete</a>
+				<a href="<%=baseUrl + '/' + row.id%>">edit</a> |
+				<a href="<%=baseUrl + '/' + row.id%>/delete">delete</a>
 			</td>
 		</tr>
 <%})%>		
