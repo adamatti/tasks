@@ -62,4 +62,4 @@ var models = [
 ]
 
 require("./processors/CrudProcessor").register(models);
-require("./processors/RestProcessor").register(models);
+require("./processors/RestProcessorV2").register(models);

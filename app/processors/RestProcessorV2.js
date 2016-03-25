@@ -43,8 +43,14 @@ function parseRow2jsonapi(row,model){
 function register(models_){
     models = models_;
     _.each (models, model => {
+        app.get("/rest/v2", (req, res) => {
+		    res.render("rest/v2/index",{
+			    "_" : _,
+			    models: _.sortBy(models, model => {return model.name} )
+		    })
+	    });
         
-        app.get("/rest/" + model.endpoint, (req,res)=>{
+        app.get("/rest/v2/" + model.endpoint, (req,res)=>{
             return persistence.list(model.endpoint)
             .then(result => { //filter
                 return _.filter(result,req.query);  
@@ -55,7 +61,7 @@ function register(models_){
             });
         });
         
-        app.get("/rest/" + model.endpoint + "/:id", (req,res)=>{
+        app.get("/rest/v2/" + model.endpoint + "/:id", (req,res)=>{
             return persistence.findById(model.endpoint,req.params.id)
             .then(row => { //Parse row to jsonAPI standard
                 if (row){
