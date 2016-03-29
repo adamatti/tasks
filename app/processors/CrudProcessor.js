@@ -6,32 +6,9 @@ const _ = require("lodash"),
 	  logger = require("log4js").getLogger("crud"),
 	  config = require('../config'),
 	  render = require('../render'),
-	  Promise = require("bluebird")
+	  Promise = require("bluebird"),
+      loadDependencies = require("./_loadDependencies")
 ;
-
-function loadDependencies(modelToLoadDependencies,models){
-	logger.trace("loadDependencies");
-	var modelsToLoad = _.filter(modelToLoadDependencies.fields, it => { return _.get(it,"meta.ref")});
-	modelsToLoad = _.map(modelsToLoad, it => {
-		return _.find(models, i=> { 
-			return i.name == it.meta.ref 
-		});
-	});
-	return Promise.all(_.map(modelsToLoad, it => {
-		logger.trace("loadDependencies: loading %s", it.endpoint);
-		return persistence.list(it.endpoint)
-		.then(list => {
-			return { name: it.name, endpoint: it.endpoint, list : list };
-		});
-	}))
-	.then (list => {
-		return _.reduce(list, (obj, it) =>{
-			logger.trace("loadDependencies: reduce [name: %s]",it.name);
-			obj[it.endpoint] = it.list;
-			return obj;
-		}, {});
-	});
-}
 
 function register(models){
 	render.setModels(models);

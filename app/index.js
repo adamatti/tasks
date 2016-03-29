@@ -42,7 +42,8 @@ var models = [
 		name    : "taskType",
 		endpoint: "taskTypes",
 		fields  :{
-			name : Type().string().required()
+			name       : Type().string().required(),
+            description: Type().string()
 		},
 		toString : function(row){
 			return row.name;
@@ -62,4 +63,5 @@ var models = [
 ]
 
 require("./processors/CrudProcessor").register(models);
+require("./processors/RestProcessorV1").register(models);
 require("./processors/RestProcessorV2").register(models);

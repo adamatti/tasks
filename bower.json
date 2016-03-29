@@ -1,0 +1,15 @@
+{
+  "name": "tasks",
+  "description": "project to track tasks",
+  "main": "app/index.js",
+  "authors": [
+    "Marcelo Adamatti"
+  ],
+  "license": "ISC",
+  "moduleType": [],
+  "homepage": "http://about.me/adamatti",
+  "private": true,
+  "dependencies": {
+    "pivottable": "~2.0.2"
+  }
+}

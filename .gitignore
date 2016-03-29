@@ -1,5 +1,5 @@
 
-# Created by https://www.gitignore.io/api/node,visualstudiocode,osx,windows,linux
+# Created by https://www.gitignore.io/api/node,visualstudiocode,osx,windows,linux,bower
 
 ### Node ###
 # Logs
@@ -103,4 +103,11 @@ $RECYCLE.BIN/
 
 # Linux trash folder which might appear on any partition or disk
 .Trash-*
+
+
+### Bower ###
+bower_components
+.bower-cache
+.bower-registry
+.bower-tmp
 
