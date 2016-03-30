@@ -1,0 +1,33 @@
+<html>
+<head>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="icon" sizes="16x16"   type="image/png" href="/favicon-16x16.png" />
+    <link rel="icon" sizes="24x24"   type="image/png" href="/favicon-24x24.png" />
+    
+     <script type="text/javascript" src="/bower/moment/min/moment.min.js"></script>
+     <script type="text/javascript" src="/bower/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+    <ul>
+        <li>Custom
+            <ul>
+                <li><a href="/pivot.html">Pivot</a></li>
+                <li><a href="/crud/timeEntries?dt=" id="linkToday">TimeEntry: today</a></li>
+            </ul>
+        </li>
+        <li>Processors
+            <ul>
+                <li><a href="/crud">Cruds</a></li>
+                <li><a href="/rest/v1">Rest V1</a></li>
+                <li><a href="/rest/v2">Rest V2</a></li>
+            </ul>
+        </li>        
+    </ul>
+<script type="text/javascript">
+$(document).ready(function() {
+    const href = $("#linkToday").attr("href"); 
+    $("#linkToday").attr("href",href + moment().format('MM/DD/YYYY'));
+})
+</script>    
+</body>
+</html>

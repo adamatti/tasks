@@ -7,7 +7,8 @@ const _ = require("lodash"),
 	  config = require('../config'),
 	  render = require('../render'),
 	  Promise = require("bluebird"),
-      loadDependencies = require("./_loadDependencies")
+      loadDependencies = require("./_loadDependencies"),
+      querystring = require("querystring")
 ;
 
 function register(models){
@@ -32,6 +33,8 @@ function register(models){
 			}).then ( rows => {
                 return _.filter(rows,req.query); 
             }).then ( rows => {
+                req.session["list query"]=req.query;
+                
 				res.render('crud/list',{
 					"_" : _,
 					renderView: render.renderView(scope.dependencies),
@@ -89,7 +92,14 @@ function register(models){
 		app.post("/crud/" + model.endpoint, (req,res)=>{
 			return persistence.save(model.endpoint,req.body.row)
 			.then ( () => {
-				res.redirect("/crud/" + model.endpoint);
+                var query = req.session["list query"];
+                if (query){                    
+                    query = querystring.stringify(query);
+                    logger.trace("Using cached query [query:%s]",query);
+                    res.redirect("/crud/" + model.endpoint + "?" + query);    
+                } else {
+				    res.redirect("/crud/" + model.endpoint);
+                }     
 			})
 		})	
 

@@ -10,6 +10,7 @@
   "homepage": "http://about.me/adamatti",
   "private": true,
   "dependencies": {
-    "pivottable": "~2.0.2"
+    "pivottable": "~2.0.2",
+    "moment": "~2.12.0"
   }
 }

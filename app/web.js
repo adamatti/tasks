@@ -4,7 +4,8 @@ const bodyParser = require('body-parser'),
 	  express = require('express'),
 	  app = express(),
 	  logger = require("log4js").getLogger("web"),
-	  config = require('./config')
+	  config = require('./config'),
+      session = require('express-session')
 ;
 
 app.use(bodyParser.json()); // support json encoded bodies
@@ -16,9 +17,11 @@ app.set("view options", { layout: true });
 app.use(express.static('app/public'));
 app.use('/bower',express.static('bower_components'));
 
+app.use(session({secret: config.expressSessionSecret}));
+
 app.get('/', function (req, res) {
 	//res.render('index',{});
-    res.redirect('/crud');
+    res.redirect('/index.html');
 });
 
 app.listen(config.port, function () {
