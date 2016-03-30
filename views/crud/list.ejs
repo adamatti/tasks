@@ -33,7 +33,14 @@
 				<a href="<%=baseUrl + '/' + row.id%>/delete">delete</a>
 			</td>
 		</tr>
-<%})%>		
+<%})%>	
+    <tr>
+           <td></td>
+<% _.each(fields, function(field,key){%>
+            <td><b><%= field.meta.type=="number" ? _.sumBy(rows, row => {return Number(row[key])}) : ''%></b></td>
+<%})%>           
+           <td colspan="4"></td>
+    </tr>
 	</tbody>
 </table>
 <a href="<%=baseUrl%>/new">Add new</a>
