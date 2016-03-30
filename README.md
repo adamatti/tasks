@@ -1,18 +1,27 @@
+#### High Priority
+* Add Mongo
+* Bootstrap
+* Security
+
 #### TODO
 * validation
 * rest
 	* operations
 		* create
-		* read
+		* read - DONE
+            - includes
+            - filter
+            - sort
+            - paging
 		* update
 		* delete
 	* swagger
-* view
+* view (crud)
 	* operations
 		* create/update - DONE
             * default values - DONE
 		* list   - WIP
-			* filter
+			* filter - DONE
 			* sort  
             * Sum?
 		* delete - DONE
