@@ -33,7 +33,7 @@ function restoreDB(){
             return fs.readFileAsync(config.fileStore,"utf-8")
             .then ( content => {
                 tables = JSON.parse(content);
-                logger.trace("database restored [file: %s]", config.fileStore);
+                logger.debug("database restored [file: %s]", config.fileStore);
             })
             .catch (error => {
                 logger.warn("Error restoring database. Maybe it is missing?",error);  

@@ -1,7 +1,13 @@
 'use strict';
 
 const Type = require('./lib').Type,
-      moment = require('moment');
+      moment = require('moment'),
+      log4js = require("log4js"),
+      config = require('./config')
+;
+
+//TODO Move this config
+log4js.configure(config.log4js);
 
 function getTaskTree(task,dependencies){
     if (!task.parent){
