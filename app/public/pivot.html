@@ -63,17 +63,17 @@
                 renderers: renderers,
                 derivedAttributes: {
                     "year":       derivers.dateFormat("dt", "%y", true),
-                    "month":      derivers.dateFormat("dt", "%m", true),
+                    //"month":      derivers.dateFormat("dt", "%m", true),
                     "day":        derivers.dateFormat("dt", "%d", true),
                     "month name": derivers.dateFormat("dt", "%n", true),
                     "day name":   derivers.dateFormat("dt", "%w", true)
                 },
-                cols: ["month","day"], 
+                cols: ["month name","day"], 
                 rows: ["task-value","type-value"],
                 aggregatorName: "Sum",
                 vals: ["hrs"],
-                rendererName: "Heatmap"
-                //renderer: utils.renderers["Heatmap"]
+                rendererName: "Heatmap",
+                hiddenAttributes: ["id","task","type","description","createdOn","updatedOn"]
             });
         });
      });
