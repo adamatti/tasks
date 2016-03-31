@@ -1,7 +1,6 @@
 #### High Priority
 * Add Mongo
 * Bootstrap
-* Security
 
 #### TODO
 * validation
@@ -27,10 +26,12 @@
 		* delete - DONE
 	* render (boolean, password, date with calendar, etc)
 	* derived fields
-* persistence
-	* file - DONE
-	* mongo
+* persistence: mongo
 * Add tests
+
+#### Done
+* Security (basic auth)
+* persistence - file
 
 #### Refs
 * [Ico](http://www.iconarchive.com/show/metronome-icons-by-cornmanthe3rd/Utilities-tasks-icon.html)
