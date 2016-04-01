@@ -63,7 +63,8 @@ var models = [
 			task        : Type().ref("task"),
 			type        : Type().ref("taskType"),
 			hrs         : Type().number().required(),
-			description : Type().string()
+			description : Type().string(),
+			extraWork   : Type().boolean().defaultValue("false")
 		}
 	}
 ]

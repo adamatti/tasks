@@ -7,6 +7,7 @@ function Type(){
 	ctx.string = function(){ctx.meta.type = "string";return ctx};
 	ctx.number = function(){ctx.meta.type = "number";return ctx};
 	ctx.date = function(){ctx.meta.type = "date";return ctx};
+	ctx.boolean = function(){ctx.meta.type = "boolean";return ctx};
 
 	ctx.required = function(){ctx.meta.required = true;return ctx};
 	ctx.ref = function (name) {ctx.meta.ref = name; return ctx};
