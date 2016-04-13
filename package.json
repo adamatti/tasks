@@ -3,6 +3,10 @@
   "version": "0.0.1",
   "description": "project to track tasks",
   "main": "app/index.js",
+  "engines": {
+    "node": "v5.10.1",
+    "npm": "3.8.3"
+  },
   "scripts": {
     "start": "node app/index.js",
     "postinstall": "bower install"
