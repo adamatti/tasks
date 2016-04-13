@@ -33,5 +33,8 @@
 * Security (basic auth)
 * persistence - file
 
+#### Frameworks to consider
+* [Immutable](https://facebook.github.io/immutable-js)
+
 #### Refs
 * [Ico](http://www.iconarchive.com/show/metronome-icons-by-cornmanthe3rd/Utilities-tasks-icon.html)

@@ -5,7 +5,7 @@ const _ = require("lodash"),
 	  logger = require("log4js").getLogger("persistence"),
 	  Promise = require("bluebird"),
 	  fs = Promise.promisifyAll(require("fs")),
-      config = require("./config")
+      config = require("../config")
 ;
 var tables = {}
 

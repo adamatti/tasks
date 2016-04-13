@@ -63,13 +63,18 @@
                 renderers: renderers,
                 derivedAttributes: {
                     "year":       derivers.dateFormat("dt", "%y", true),
-                    //"month":      derivers.dateFormat("dt", "%m", true),
+                    "month":      derivers.dateFormat("dt", "%m", true),
                     "day":        derivers.dateFormat("dt", "%d", true),
-                    "month name": derivers.dateFormat("dt", "%n", true),
-                    "day name":   derivers.dateFormat("dt", "%w", true)
+                    //"month name": derivers.dateFormat("dt", "%n", true),
+                    "day name":   derivers.dateFormat("dt", "%w", true),
+                    "project" : function (record){
+                        var str = record["task-value"]; 
+                        var n = str.indexOf("/");                        
+                        return n > -1 ? str.substring(0,n) : str;
+                    }
                 },
-                cols: ["month name","day"], 
-                rows: ["task-value","type-value"],
+                cols: ["month","day","day name"], 
+                rows: ["project","type-value"],
                 aggregatorName: "Sum",
                 vals: ["hrs"],
                 rendererName: "Heatmap",

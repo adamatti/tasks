@@ -18,4 +18,8 @@ config.log4js = {
     ]
 }
 
+config.mongo = {
+    url: process.env.MONGOLAB_URI || 'mongodb://docker.me:27017/tasks'
+}
+
 module.exports = config; 
