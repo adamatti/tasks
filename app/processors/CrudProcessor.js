@@ -11,6 +11,10 @@ const _ = require("lodash"),
       querystring = require("querystring")
 ;
 
+function errorHandler(error){
+    logger.error("Error: ",error);
+}
+
 function register(models){
 	render.setModels(models);
 
@@ -43,7 +47,7 @@ function register(models){
 					"fields" : model.fields,
 					"rows"   : rows
 				})
-			})
+			}).catch(errorHandler);
 		})
 
 		//new entity
@@ -77,7 +81,7 @@ function register(models){
 					"fields" : model.fields,
 					row: row
 				})
-			})	
+			}).catch(errorHandler);	
 		})
 
 		//delete entity
@@ -85,7 +89,7 @@ function register(models){
 			return persistence.remove(model.endpoint, req.params.id)
 			.then ( () => {
 				res.redirect("/crud/" + model.endpoint);
-			})	
+			}).catch(errorHandler);	
 		})
 
 		//save and forward to list
@@ -100,7 +104,7 @@ function register(models){
                 } else {
 				    res.redirect("/crud/" + model.endpoint);
                 }     
-			})
+			}).catch(errorHandler);
 		})	
 
 		logger.trace("Loaded endpoints [model: %s]",model.endpoint);	

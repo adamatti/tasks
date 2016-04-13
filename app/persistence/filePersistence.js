@@ -1,11 +1,13 @@
 'use strict';
 
 const _ = require("lodash"),
-	  uuid = require("uuid-v4"),
 	  logger = require("log4js").getLogger("persistence"),
 	  Promise = require("bluebird"),
 	  fs = Promise.promisifyAll(require("fs")),
-      config = require("../config")
+      config = require("../config"),
+      shared = require("./_shared"),
+      events = require("events"),
+      eventEmitter = new events()
 ;
 var tables = {}
 
@@ -34,6 +36,7 @@ function restoreDB(){
             .then ( content => {
                 tables = JSON.parse(content);
                 logger.debug("database restored [file: %s]", config.fileStore);
+                eventEmitter.emit("ready");
             })
             .catch (error => {
                 logger.warn("Error restoring database. Maybe it is missing?",error);  
@@ -50,6 +53,9 @@ function restoreDB(){
 restoreDB();
 
 module.exports = {
+    on : function(eventName,callback){
+        eventEmitter.on(eventName,callback);
+    },
 	list : function (tableName){		
 		return initTable(tableName)
 		.then( () => {
@@ -64,15 +70,16 @@ module.exports = {
 	save : function (tableName,row){
 		return initTable(tableName)
 		.then( () => {
-			var table = tables[tableName];
-			if (!_.get(row,"id")){ //insert
-				row.id = uuid();
-				row.createdOn = new Date()
-				logger.trace("New id [table: %s, id: %s]",tableName,row.id);
-			} else { //update
-				row = _.merge(tables[tableName][row.id],row);
-			}
-			row.updatedOn = new Date();
+			var table = tables[tableName];			   
+            
+            var insert = !_.get(row,"id");
+            row = shared.preSave(row);
+            if (insert){
+                logger.trace("New id [table: %s, id: %s]",tableName,row.id);
+            } else {
+                row = _.merge(tables[tableName][row.id],row);
+            }                            
+            
 			table[row.id] = row;
 			//logger.trace("new table: %s", JSON.stringify(table));
 			return row;

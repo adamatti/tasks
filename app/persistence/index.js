@@ -1,9 +1,8 @@
 'use strict';
-const config = require("../config"),
-      file = require("./filePersistence"),
-      mongo = require("./mongoPersistence")
-;
+const config = require("../config");
 
-//module.exports = config.mongo.url ? mongo : file;
-module.exports = file;
+module.exports = config.mongo.url ? 
+    require("./mongoPersistence") : 
+    require("./filePersistence")
+;
     

@@ -5,7 +5,7 @@
   "main": "app/index.js",
   "scripts": {
     "start": "node app/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "postinstall": "bower install"
   },
   "author": "Marcelo Adamatti",
   "license": "ISC",
@@ -23,5 +23,8 @@
     "querystring": "^0.2.0",
     "string": "^3.3.1",
     "uuid-v4": "^0.1.0"
+  },
+  "devDependencies": {
+    "bower": "^1.7.9"
   }
 }

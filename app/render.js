@@ -45,7 +45,8 @@ module.exports = {
 				logger.trace("renderView [entity: %s]",entity);
 				const model = _.find(models,it => {return it.name == entity});
 				//logger.trace("renderView: model",model)
-				return "<a href='/crud/" + model.endpoint + "/" + value + "'>" + model.toString( dependencies[model.endpoint][value],dependencies ) + "</a>";
+                const obj = _.find(dependencies[model.endpoint], it => {return it.id == value});
+				return "<a href='/crud/" + model.endpoint + "/" + value + "'>" + model.toString(obj,dependencies ) + "</a>";
 			} else if (type == "date"){
 				//FIXME format date
 				//return moment(value,'MMM/dd/YY')

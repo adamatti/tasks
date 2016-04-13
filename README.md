@@ -1,5 +1,4 @@
 #### High Priority
-* Add Mongo
 * Bootstrap
 
 #### TODO
@@ -26,12 +25,12 @@
 		* delete - DONE
 	* render (boolean, password, date with calendar, etc)
 	* derived fields
-* persistence: mongo
 * Add tests
 
 #### Done
 * Security (basic auth)
 * persistence - file
+* persistence: mongo
 
 #### Frameworks to consider
 * [Immutable](https://facebook.github.io/immutable-js)
