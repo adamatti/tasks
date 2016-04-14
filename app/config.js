@@ -24,7 +24,7 @@ config.persistence = {
 }
 config.fileStore = process.env.HOME + "/taskTrackerDatabase.json";
 config.mongo = {
-    url: process.env.MONGOLAB_URI
+    url: process.env.MONGODB_URI || process.env.MONGOLAB_URI
 }
 
 module.exports = config; 
