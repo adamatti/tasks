@@ -10,7 +10,7 @@ const models = require("../models"),
 var ready = {}
 function doMigration (){
     if (ready.file && ready.mongo){
-        return Promise.resolve()
+        return Promise.resolve({})
         .then( () =>{
             logger.info("Started");
             return Promise.all(_.map(models, model =>{
@@ -23,7 +23,8 @@ function doMigration (){
             }))
         })
         .then( () => {
-            logger.info("Migration complete")
+            logger.info("Migration complete");
+            process.exit()
         })
         .catch(error => {
             logger.error("Error: ",error);
