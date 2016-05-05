@@ -1,11 +1,11 @@
 <html>
 <head>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="icon" sizes="16x16"   type="image/png" href="/favicon-16x16.png" />
-    <link rel="icon" sizes="24x24"   type="image/png" href="/favicon-24x24.png" />
+    <script src="/bower/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="/includes/header.html">
 </head>
 <body>
-<table border=1>
+ <x-menu></x-menu>
+<table class="table table-striped">
 	<thead>
 		<tr>
 			<th>id</th>
@@ -43,6 +43,6 @@
     </tr>
 	</tbody>
 </table>
-<a href="<%=baseUrl%>/new">Add new</a>
+<a href="<%=baseUrl%>/new" class="btn btn-success">Add new</a>
 </body>
 </html>

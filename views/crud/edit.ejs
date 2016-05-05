@@ -1,25 +1,25 @@
 <html>
 <head>
-    <link rel="shortcut icon" href="/favicon.ico" />
-    <link rel="icon" sizes="16x16"   type="image/png" href="/favicon-16x16.png" />
-    <link rel="icon" sizes="24x24"   type="image/png" href="/favicon-24x24.png" />
+    <script src="/bower/webcomponentsjs/webcomponents-lite.js"></script>
+    <link rel="import" href="/includes/header.html">
 </head>
 <body>
+	 <x-menu></x-menu>
 	<form method="post" action="<%=baseUrl%>">
 	<input type="hidden" name="row[id]" value="<%=row.id%>">
-	<table border="1">
+	<table class="table table-striped">
 		<tr>
 			<th>id</th>
-			<th><%=_.get(row,"id")%></th>
+			<td><%=_.get(row,"id")%></td>
 		</tr>
 <% _.each(fields, function(field,key){%>
 		<tr>
 			<th><%=key%></th>
-			<th><%-renderEdit (row, key)%></th>
+			<td><%-renderEdit (row, key)%></td>
 		</tr>		
 <%})%>
 	</table>
-	<input type="submit" value="save">
+	<input type="submit" value="save" class="btn btn-success">
 	</form>
 </body>
 </html>

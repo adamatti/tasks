@@ -11,6 +11,8 @@
   "private": true,
   "dependencies": {
     "pivottable": "~2.0.2",
-    "moment": "~2.12.0"
+    "moment": "~2.12.0",
+    "bootstrap": "^3.3.6",
+    "polymer": "^1.4.0"
   }
 }
