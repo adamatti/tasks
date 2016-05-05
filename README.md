@@ -1,31 +1,14 @@
-#### High Priority
-* Bootstrap
-
 #### TODO
-* validation
-* rest
-	* operations
-		* create
-		* read - DONE
-            - includes
-            - filter
-            - sort
-            - paging
-		* update
-		* delete
-	* swagger
+* document
+* data validation
 * view (crud)
-	* operations
-		* create/update - DONE
-            * default values - DONE
-		* list   - WIP
-			* filter - DONE
-			* sort  
-            * Sum?
-		* delete - DONE
-	* render (boolean, password, date with calendar, etc)
-	* derived fields
+      * sort
+	* better renders (e.g. boolean, password, date with calendar, etc)
 * Add tests
+
+#### Todo - Low Priority
+* Bootstrap - already added, but can be improved
+* Rest operations + Swagger (do I really need it now?) 
 
 #### Done
 * Security (basic auth)
