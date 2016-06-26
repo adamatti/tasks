@@ -12,6 +12,9 @@
     "LOG_LEVEL" : "DEBUG",
     "ADMIN_USER" : "admin",
     "ADMIN_PASS" : "admin",
-    "EXPRESS_SESSION_SECRET" : "ssshhhhh"
+    "EXPRESS_SESSION_SECRET" : "ssshhhhh",
+    "NEW_RELIC_LOG":"stdout",
+    "NEW_RELIC_NO_CONFIG_FILE":"True",
+    "NPM_CONFIG_PRODUCTION":"false"
   }
 }
