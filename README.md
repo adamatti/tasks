@@ -1,4 +1,8 @@
-#### TODO
+Pet project to manage project hrs (e.g. get hrs expended on each project/task/meeting)
+
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/adamatti/tasks)
+
+#### Todo
 * document
 * data validation
 * view (crud)
@@ -8,12 +12,7 @@
 
 #### Todo - Low Priority
 * Bootstrap - already added, but can be improved
-* Rest operations + Swagger (do I really need it now?) 
-
-#### Done
-* Security (basic auth)
-* persistence - file
-* persistence: mongo
+* Rest operations + Swagger (do I really need it now?)
 
 #### Frameworks to consider
 * [Immutable](https://facebook.github.io/immutable-js)

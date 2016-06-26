@@ -1,0 +1,17 @@
+{
+  "name": "Tasks",
+  "description": "Pet project to manage project hrs",
+  "repository": "https://github.com/adamatti/tasks",
+  "keywords": ["tasks","project management","node","express"],
+  "addons":[
+      "logentries:le_tryit",
+      "mongolab:sandbox",
+      "newrelic:wayne"
+  ],
+  "env" : {
+    "LOG_LEVEL" : "DEBUG",
+    "ADMIN_USER" : "admin",
+    "ADMIN_PASS" : "admin",
+    "EXPRESS_SESSION_SECRET" : "ssshhhhh"
+  }
+}
