@@ -1,6 +1,6 @@
 Pet project to manage project hrs (e.g. get hrs expended on each project/task/meeting)
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/adamatti/tasks)
+[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/adamatti/tasks) [![Dependency Status](https://dependencyci.com/github/adamatti/tasks/badge)](https://dependencyci.com/github/adamatti/tasks)
 
 #### Todo
 * document
