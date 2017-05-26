@@ -112,3 +112,4 @@ bower_components
 .bower-tmp
 
 Makefile
+yarn.lock
