@@ -1,10 +1,10 @@
 const CURRENT_LOG_LEVEL = 3;
 
 function log(moduleName,level, levelInt){
-    return function (msg,msg2,msg3){
+    return function (msg){
         if (levelInt >= CURRENT_LOG_LEVEL) {
             const dt = new Date().toUTCString()
-            console.log(`${dt} - ${level} - ${moduleName} - ${msg}`,msg2,msg3);
+            console.log(`${dt} - ${level} - ${moduleName} - ${msg}`);
         }
     }
 }
