@@ -14,8 +14,5 @@ Pet project to manage project hrs (e.g. get hrs expended on each project/task/me
 * Bootstrap - already added, but can be improved
 * Rest operations + Swagger (do I really need it now?)
 
-#### Frameworks to consider
-* [Immutable](https://facebook.github.io/immutable-js)
-
 #### Refs
 * [Ico](http://www.iconarchive.com/show/metronome-icons-by-cornmanthe3rd/Utilities-tasks-icon.html)

@@ -12,7 +12,7 @@ config.expressSessionSecret=process.env.EXPRESS_SESSION_SECRET || 'ssshhhhh';
 config.persistence = {
     generateUpdateDate : (process.env.GENERATE_UPDATE_DATE || "true") == "true" 
 }
-config.fileStore = process.env.HOME + "/taskTrackerDatabase.json";
+config.fileStore = process.env.DB_FILE || (process.env.HOME + "/taskTrackerDatabase.json");
 config.mongo = {
     url: process.env.MONGODB_URI || process.env.MONGOLAB_URI
 }

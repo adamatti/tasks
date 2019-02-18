@@ -1,0 +1,14 @@
+.vscode/
+bower_components/
+node_modules/
+
+.editorconfig
+.gitignore
+app.json
+Dockerfile
+Makefile
+package-lock.json
+yarn.lock
+
+*.log
+*.md
