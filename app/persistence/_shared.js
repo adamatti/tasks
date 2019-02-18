@@ -1,8 +1,5 @@
-'use strict';
-
 const _ = require("lodash"),
       uuid = require("uuid-v4"),
-      logger = require("log4js").getLogger("persistence_shared"),
       config = require("../config")
 ;
 

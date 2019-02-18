@@ -1,11 +1,9 @@
-'use strict';
-
 const app = require("../web").app,
       _ = require("lodash"),
-      logger = require("log4js").getLogger("rest"),
+      logger = require("../log")("rest"),
       persistence = require("../persistence")
 ;
-var models;
+let models;
 
 function getAttributes(row,model){
     return _.pickBy(row, (value, key) => {
@@ -15,14 +13,14 @@ function getAttributes(row,model){
 }
 
 function getRelationships(row,model){
-    var relationships = _.pickBy(row, (value, key) => {
+    const relationships = _.pickBy(row, (value, key) => {
         const hasRef = _.get(model,"fields." + key + ".meta.ref");
         return hasRef;
     });
     
     return _.reduce(relationships, (obj,value, key) => {
         const ref = _.get(model,"fields." + key + ".meta.ref");
-        var refModel = _.find(models,it => { return it.name == ref});        
+        const refModel = _.find(models,it => { return it.name == ref});        
         obj[key] = {
             type: _.get(refModel,'endpoint'), 
             value: value
@@ -76,7 +74,7 @@ function register(models_){
             })
         });
         
-        logger.trace("Loaded endpoints [model: %s]",model.endpoint);
+        logger.trace(`Loaded endpoints [model: ${model.endpoint}]`);
     });
 }
 

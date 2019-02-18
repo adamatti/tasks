@@ -1,7 +1,6 @@
-'use strict';
-
 const _ = require("lodash"),
-	  logger = require("log4js").getLogger("persistence"),
+	  logFactory = require("../log"),
+	  logger = logFactory("persistence"),
 	  Promise = require("bluebird"),
 	  fs = Promise.promisifyAll(require("fs")),
       config = require("../config"),
@@ -9,7 +8,7 @@ const _ = require("lodash"),
       events = require("events"),
       eventEmitter = new events()
 ;
-var tables = {}
+let tables = {}
 
 function initTable(tableName){
 	return new Promise(function (resolve, reject) {
@@ -35,7 +34,7 @@ function restoreDB(){
             return fs.readFileAsync(config.fileStore,"utf-8")
             .then ( content => {
                 tables = JSON.parse(content);
-                logger.debug("database restored [file: %s]", config.fileStore);
+                logger.debug(`database restored [file: ${config.fileStore}]`);
                 eventEmitter.emit("ready");
             })
             .catch (error => {
@@ -70,9 +69,9 @@ module.exports = {
 	save : function (tableName,row){
 		return initTable(tableName)
 		.then( () => {
-			var table = tables[tableName];			   
+			const table = tables[tableName];			   
             
-            var insert = !_.get(row,"id");
+            const insert = !_.get(row,"id");
             row = shared.preSave(row);
             if (insert){
                 logger.trace("New id [table: %s, id: %s]",tableName,row.id);

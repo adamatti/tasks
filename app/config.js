@@ -1,21 +1,11 @@
-"use strict";
-
-var config = {}
-
-config.log4js = {
-    levels:{'[all]': process.env.LOG_LEVEL || 'DEBUG'},
-    replaceConsole:true,
-    appenders: [
-        { "type": "console" }
-    ]
-}
+const config = {}
 
 //Web config
 config.admin = {
     user : process.env.ADMIN_USER || 'admin',
     pass : process.env.ADMIN_PASS || 'admin'
 }
-config.port = process.env.PORT || 3000;
+config.port = process.env.PORT || 3001;
 config.expressSessionSecret=process.env.EXPRESS_SESSION_SECRET || 'ssshhhhh';
 
 //Persistence config
@@ -27,4 +17,4 @@ config.mongo = {
     url: process.env.MONGODB_URI || process.env.MONGOLAB_URI
 }
 
-module.exports = config; 
+module.exports = config;

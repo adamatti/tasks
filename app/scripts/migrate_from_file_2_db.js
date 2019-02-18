@@ -1,5 +1,3 @@
-'use strict';
-
 const models = require("../models"),
       file = require("../persistence/filePersistence"),
       mongo = require("../persistence/mongoPersistence"),
@@ -7,7 +5,7 @@ const models = require("../models"),
       Promise = require("bluebird"),
       _ = require("lodash")
 ;
-var ready = {}
+const ready = {}
 function doMigration (){
     if (ready.file && ready.mongo){
         return Promise.resolve({})

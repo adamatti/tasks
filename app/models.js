@@ -1,21 +1,21 @@
-//'use strict';
-
 const Type = require('./lib').Type, 
       moment = require('moment'),
       _ = require("lodash")
 ;
 
 function getTaskTree(task,dependencies){
-    if (!task.parent){
+	if (!task){
+		return "undefined" 
+    } if (!task.parent){
         return task.name;
     } else {
-        var parentRow = _.find(dependencies.tasks, it => {return it.id == task.parent});
+        const parentRow = _.find(dependencies.tasks, it => {return it.id == task.parent});
         return getTaskTree(parentRow,dependencies) + "/" +  task.name;
     }
 }
 
-var now = moment().format('MM/DD/YYYY'); 
-var models = [
+const now = moment().format('MM/DD/YYYY'); 
+const models = [
 	{
 		name    : "person",
 		endpoint: "persons",

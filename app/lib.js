@@ -1,7 +1,5 @@
-'use strict';
-
 function Type(){
-	var ctx = {
+	const ctx = {
 		meta:{}
 	}
 	ctx.string = function(){ctx.meta.type = "string";return ctx};

@@ -1,5 +1,3 @@
-'use strict';
-
 const Promise = require('bluebird').Promise,
       _ = require('lodash'),
       logger = require('log4js').getLogger("mongo"),
@@ -18,13 +16,13 @@ Promise.promisifyAll(collection.prototype);
 Promise.promisifyAll(mongoClient);
 collection.prototype._find = collection.prototype.find;
 collection.prototype.find = function() {
-    var cursor = this._find.apply(this, arguments);
+    const cursor = this._find.apply(this, arguments);
     cursor.toArrayAsync = Promise.promisify(cursor.toArray, cursor);
     cursor.countAsync = Promise.promisify(cursor.count, cursor);
     return cursor;
 }
 ////////////////////////////////////////////////////////// 
-var db;
+const db;
 
 mongoClient.connectAsync(config.mongo.url).then (result => {
     db = result;
@@ -63,7 +61,7 @@ module.exports = {
     },
     list : function (tableName){
         logger.trace("list [tableName: %s]",tableName);
-        var collection = db.collection(tableName);
+        const collection = db.collection(tableName);
         return collection.find().toArrayAsync()
         .then(rows => {
             return _.map(rows, row =>{
@@ -74,7 +72,7 @@ module.exports = {
     },
     save : function (tableName,row){
         logger.trace("save [tableName: %s]",tableName);
-        var collection = db.collection(tableName);
+        const collection = db.collection(tableName);
         row = toDB(shared.preSave(row));
         return collection.updateAsync({_id:row._id},row,{upsert:true})
         .then ( result => {
@@ -84,7 +82,7 @@ module.exports = {
     },
     findById: function (tableName,id){
         logger.trace("findById [tableName: %s]",tableName);
-        var collection = db.collection(tableName);
+        const collection = db.collection(tableName);
         return collection.findOneAsync({_id:id})
         .then(row => {
             return fromDB(row);
@@ -93,7 +91,7 @@ module.exports = {
     },
     remove: function (tableName, id){
         logger.trace("remove [tableName: %s]",tableName);
-        var collection = db.collection(tableName);
+        const collection = db.collection(tableName);
         return collection.removeAsync({_id: id})
         .then(row => {
             return fromDB(row);

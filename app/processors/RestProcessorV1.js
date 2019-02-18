@@ -1,20 +1,15 @@
-'use strict';
-
 const app = require("../web").app,
       _ = require("lodash"),
-      logger = require("log4js").getLogger("rest"),
+      logger = require("../log")("rest"),
       persistence = require("../persistence"),
       Promise = require("bluebird"),
       loadDependencies = require("./_loadDependencies")
 ;
-var models;
+let models;
 
 function processRow(row, modelToLoadDependencies,dependencies){
-    return loadDependenciesIntoRow(row,modelToLoadDependencies,dependencies)
-    .then(row => {
-        if (
-            modelToLoadDependencies.toString.arguments
-        ){
+    return loadDependenciesIntoRow(row,modelToLoadDependencies,dependencies).then(row => {
+        if ( modelToLoadDependencies.toString.length > 0){
             row.toString = modelToLoadDependencies.toString(row,dependencies);
         }    
         return row;
@@ -22,7 +17,7 @@ function processRow(row, modelToLoadDependencies,dependencies){
 }
 
 function loadDependenciesIntoRow(row, modelToLoadDependencies, dependencies){
-    var modelsToLoad = _.reduce(modelToLoadDependencies.fields, (obj,it,key) => { 
+    const modelsToLoad = _.reduce(modelToLoadDependencies.fields, (obj,it,key) => { 
         const ref = _.get(it,"meta.ref");
         if (ref){
             obj[key] = _.find(models, it => { return it.name == ref });
@@ -59,7 +54,7 @@ function register(models_){
 	    });
         
         app.get("/rest/v1/" + model.endpoint, (req,res)=>{
-            var scope = {};
+            const scope = {};
             return loadDependencies(model, models)
 			.then (dependencies => {
                 scope.dependencies = dependencies; 
@@ -81,7 +76,7 @@ function register(models_){
         });
         
         app.get("/rest/v1/" + model.endpoint + "/:id", (req,res)=>{
-            var scope = {};
+            const scope = {};
             return loadDependencies(model, models)
 			.then (dependencies => {
                 scope.dependencies = dependencies; 

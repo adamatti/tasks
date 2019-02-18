@@ -1,12 +1,8 @@
-'use strict';
-
 const _ = require("lodash"),
 	  persistence = require("../persistence"),
 	  app = require("../web").app,
-	  logger = require("log4js").getLogger("crud"),
-	  config = require('../config'),
+	  logger = require("../log")("crud"),
 	  render = require('../render'),
-	  Promise = require("bluebird"),
       loadDependencies = require("./_loadDependencies"),
       querystring = require("querystring")
 ;
@@ -28,7 +24,7 @@ function register(models){
 	_.each (models, model => {
 		//List entities
 		app.get("/crud/" + model.endpoint, (req,res)=>{
-			var scope = {};
+			const scope = {};
 			return loadDependencies(model, models)
 			.then (dependencies => {
 				//logger.trace("dependencies",dependencies);
@@ -67,7 +63,7 @@ function register(models){
 
 		//edit entity
 		app.get("/crud/" + model.endpoint + "/:id", (req,res)=>{
-			var scope = {};
+			const scope = {};
 			return loadDependencies(model, models)
 			.then (dependencies => {
 				scope.dependencies = dependencies;
@@ -96,7 +92,7 @@ function register(models){
 		app.post("/crud/" + model.endpoint, (req,res)=>{
 			return persistence.save(model.endpoint,req.body.row)
 			.then ( () => {
-                var query = req.session["list query"];
+                let query = req.session["list query"];
                 if (query){                    
                     query = querystring.stringify(query);
                     logger.trace("Using cached query [query:%s]",query);
@@ -107,7 +103,7 @@ function register(models){
 			}).catch(errorHandler);
 		})	
 
-		logger.trace("Loaded endpoints [model: %s]",model.endpoint);	
+		logger.trace(`Loaded endpoints [model: ${model.endpoint}]`);	
 	});
 }
 

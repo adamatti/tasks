@@ -1,23 +1,14 @@
-'use strict';
-
-const moment = require("moment"),
-	  _ = require("lodash"),
-	  persistence = require("./persistence"),
-	  logger = require("log4js").getLogger("render")
+const _ = require("lodash"),
+	  logger = require("./log")("render")
 ;
-var models;
-
-function waitForPromise(promise){
-	while ( promise.isPending() ){}
-	return promise.value();
-}
+let models;
 
 function renderCombo(fieldName,entity,dependencies,value){
 	logger.trace("started to render combo " );
-	var result = "<select name='row[" + fieldName + "]'><option value=''></option>";
+	let result = "<select name='row[" + fieldName + "]'><option value=''></option>";
 
-	var model = _.find(models,it => {return it.name == entity})
-	var rows = dependencies[model.endpoint];
+	const model = _.find(models,it => {return it.name == entity})
+	let rows = dependencies[model.endpoint];
 	rows = _.sortBy(rows, row => {return model.toString(row,dependencies)})
 	_.each(rows,row => {
 		result+="<option value='" + row.id + "' "; 

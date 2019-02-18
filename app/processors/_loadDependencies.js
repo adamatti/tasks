@@ -1,15 +1,12 @@
-
-'use strict';
-
 const _ = require("lodash"),
       persistence = require("../persistence"),
       Promise = require("bluebird"),
-      logger = require("log4js").getLogger("loadDependencies")
+      logger = require("../log")("loadDependencies")
 ;      
       
 function loadDependencies(modelToLoadDependencies,models){
 	logger.trace("init");
-	var modelsToLoad = _.filter(modelToLoadDependencies.fields, it => { return _.get(it,"meta.ref")});
+	let modelsToLoad = _.filter(modelToLoadDependencies.fields, it => { return _.get(it,"meta.ref")});
 	modelsToLoad = _.map(modelsToLoad, it => {
 		return _.find(models, i=> { 
 			return i.name == it.meta.ref 
