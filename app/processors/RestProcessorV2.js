@@ -1,6 +1,6 @@
 const app = require("../web").app,
       _ = require("lodash"),
-      logger = require("../log")("rest"),
+      logger = require("../log")("rest.v2"),
       persistence = require("../persistence")
 ;
 let models;
@@ -38,7 +38,7 @@ function parseRow2jsonapi(row,model){
     }
 }
 
-function register(models_){
+async function register(models_){
     models = models_;
     _.each (models, model => {
         app.get("/rest/v2", (req, res) => {

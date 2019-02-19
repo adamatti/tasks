@@ -11,7 +11,7 @@ function errorHandler(error){
     logger.error("Error: ",error);
 }
 
-function register(models){
+async function register(models){
 	render.setModels(models);
 
 	app.get("/crud", (req, res) => {

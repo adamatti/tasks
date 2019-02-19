@@ -1,6 +1,7 @@
 .vscode/
 bower_components/
 node_modules/
+coverage/
 
 .editorconfig
 .gitignore

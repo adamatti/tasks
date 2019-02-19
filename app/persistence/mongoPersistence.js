@@ -80,14 +80,11 @@ module.exports = {
         })
         .catch(errorHandler);
     },
-    findById: function (tableName,id){
+    findById: async function (tableName,id){
         logger.trace("findById [tableName: %s]",tableName);
         const collection = db.collection(tableName);
-        return collection.findOneAsync({_id:id})
-        .then(row => {
-            return fromDB(row);
-        })
-        .catch(errorHandler);
+        const row = await collection.findOneAsync({_id:id})
+        return fromDB(row);
     },
     remove: function (tableName, id){
         logger.trace("remove [tableName: %s]",tableName);

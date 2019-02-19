@@ -1,11 +1,13 @@
 const bodyParser = require('body-parser'),
 	  express = require('express'),
 	  app = express(),
-	  logger = require("./log")("web"),
 	  config = require('./config'),
       session = require('express-session'),
-      basicAuth = require('basic-auth-connect')
+	  basicAuth = require('basic-auth-connect'),
+	  logger = require("./log")("web")
 ;
+
+logger.trace("loading web")
 
 app.use(basicAuth(config.admin.user, config.admin.pass));
 app.use(session({secret: config.expressSessionSecret}));
@@ -21,14 +23,13 @@ app.use(express.static('app/public'));
 app.use('/bower',express.static('bower_components'));
 
 ////////////////////////////////////////////////////////////////////////////// Global Routes
+app.get("/health", (req,res) => {
+	res.json({status:'ok'}).end()
+})
+
 app.get('/', function (req, res) {
 	//res.render('index',{});
     res.redirect('/index.html');
-});
-
-////////////////////////////////////////////////////////////////////////////// Start Server itself
-app.listen(config.port, function () {
-	logger.info(`App started [port: ${config.port}]`);
 });
 
 module.exports = {

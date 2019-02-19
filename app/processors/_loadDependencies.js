@@ -4,7 +4,7 @@ const _ = require("lodash"),
       logger = require("../log")("loadDependencies")
 ;      
       
-function loadDependencies(modelToLoadDependencies,models){
+async function loadDependencies(modelToLoadDependencies,models){
 	logger.trace("init");
 	let modelsToLoad = _.filter(modelToLoadDependencies.fields, it => { return _.get(it,"meta.ref")});
 	modelsToLoad = _.map(modelsToLoad, it => {

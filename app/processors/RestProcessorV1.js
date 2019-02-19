@@ -1,19 +1,20 @@
 const app = require("../web").app,
       _ = require("lodash"),
-      logger = require("../log")("rest"),
+      logger = require("../log")("rest.v1"),
       persistence = require("../persistence"),
       Promise = require("bluebird"),
       loadDependencies = require("./_loadDependencies")
+      express = require("express")
 ;
 let models;
 
-function processRow(row, modelToLoadDependencies,dependencies){
-    return loadDependenciesIntoRow(row,modelToLoadDependencies,dependencies).then(row => {
-        if ( modelToLoadDependencies.toString.length > 0){
-            row.toString = modelToLoadDependencies.toString(row,dependencies);
-        }    
-        return row;
-    });
+async function processRow(row, modelToLoadDependencies,dependencies){
+    const newRow = await loadDependenciesIntoRow(row,modelToLoadDependencies,dependencies);
+   
+    if (modelToLoadDependencies.toString.length > 0){
+        newRow.toString = modelToLoadDependencies.toString(newRow,dependencies);
+    }    
+    return newRow;
 }
 
 function loadDependenciesIntoRow(row, modelToLoadDependencies, dependencies){
@@ -43,7 +44,7 @@ function loadDependenciesIntoRow(row, modelToLoadDependencies, dependencies){
     });
 }
 
-function register(models_){
+async function register(models_){
     models = models_;
     _.each (models, model => {
         app.get("/rest/v1", (req, res) => {
@@ -75,21 +76,16 @@ function register(models_){
             });
         });
         
-        app.get("/rest/v1/" + model.endpoint + "/:id", (req,res)=>{
-            const scope = {};
-            return loadDependencies(model, models)
-			.then (dependencies => {
-                scope.dependencies = dependencies; 
-                return persistence.findById(model.endpoint,req.params.id)
-            }).then(row => {
-                return processRow(row,model,scope.dependencies);    
-            }).then(row => {
-                res.send([row]); 
-            }).catch ( error => {
-                logger.error("Error: ",error);
-                res.status(500).send({errors: [{title: 'Internal error'}]})
-            });
+        app.get("/rest/v1/" + model.endpoint + "/:id", async (req,res)=>{
+            const id = req.params.id
+            logger.trace(`/rest/v1/${model.endpoint}/${id} called`)
+            const dependencies = await loadDependencies(model, models)
+            let row = await persistence.findById(model.endpoint,id)
+            row = await processRow(row,model,dependencies);    
+            res.status(row ? 200 : 404).json(row).end(); 
         });
+
+        logger.trace(`Loaded endpoints [model: ${model.endpoint}]`);
     });
 }
 

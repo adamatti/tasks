@@ -8,9 +8,15 @@ Pet project to manage project hrs (e.g. get hrs expended on each project/task/me
 * view (crud)
       * sort
 	* better renders (e.g. boolean, password, date with calendar, etc)
-* Add tests
+
+#### Technical improvements
+
+* use lowdb
+* events (for start / ready)
+* test mongo
 
 #### Todo - Low Priority
+
 * Bootstrap - already added, but can be improved
 * Rest operations + Swagger (do I really need it now?)
 

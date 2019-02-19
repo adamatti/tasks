@@ -4,12 +4,14 @@
   "description": "project to track tasks",
   "main": "app/index.js",
   "engines": {
-    "node": "v5.10.1",
-    "npm": "3.8.3"
+    "node": "10.11.0",
+    "npm": "6.7.0"
   },
   "scripts": {
     "start": "node app/index.js",
-    "postinstall": "bower install"
+    "start:test": "PORT=8080 DB_FILE=/tmp/db.json node app/index.js",
+    "postinstall": "bower install",
+    "test": "PORT=8080 DB_FILE=/tmp/db.json jest --coverage --silent"
   },
   "author": "Marcelo Adamatti",
   "license": "ISC",
@@ -20,6 +22,7 @@
     "ejs": "^2.5.9",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
+    "jest": "^24.1.0",
     "lodash": "^4.17.5",
     "moment": "^2.22.1",
     "mongodb": "^3.0.7",
@@ -29,6 +32,7 @@
     "uuid-v4": "^0.1.0"
   },
   "devDependencies": {
-    "bower": "^1.8.4"
+    "bower": "^1.8.4",
+    "frisby": "^2.1.1"
   }
 }

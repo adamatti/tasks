@@ -4,9 +4,7 @@ const _ = require("lodash"),
 	  Promise = require("bluebird"),
 	  fs = Promise.promisifyAll(require("fs")),
       config = require("../config"),
-      shared = require("./_shared"),
-      events = require("events"),
-      eventEmitter = new events()
+      shared = require("./_shared")
 ;
 let tables = {}
 
@@ -20,86 +18,65 @@ function initTable(tableName){
 	})
 }
 
-function doBackup(tables){
+async function doBackup(tables){
 	const json = JSON.stringify(tables,null,4);
-	return fs.writeFileAsync(config.fileStore,json,"utf-8")
-	.then( () => {
-		logger.debug(`database saved [file: ${config.fileStore}]`);
-	});
+	await fs.writeFileAsync(config.fileStore,json,"utf-8")
+	logger.debug(`database saved [file: ${config.fileStore}]`);
 }
 
 function restoreDB(){
-    return fs.exists(config.fileStore, exists =>{
-        if (exists){
-            return fs.readFileAsync(config.fileStore,"utf-8")
-            .then ( content => {
-                tables = JSON.parse(content);
-                logger.debug(`database restored [file: ${config.fileStore}]`);
-                eventEmitter.emit("ready");
-            })
-            .catch (error => {
-                logger.warn(`Error restoring database. Maybe it is missing? ${error}`);  
-            });
-        } else {
-            logger.info(`No db file to restore [file: ${config.fileStore}]`);
-        }
-    })     
+    return new Promise (function (resolve, reject) { 
+		fs.exists(config.fileStore, async exists =>{
+			if (exists){
+				const content = await fs.readFileAsync(config.fileStore,"utf-8")				
+				tables = JSON.parse(content);
+				logger.debug(`database restored [file: ${config.fileStore}]`);
+			} else {
+				logger.info(`No db file to restore [file: ${config.fileStore}]`);
+			}
+			resolve()
+		})
+	})     
 }
 
 //Main methods
 //TODO emit an event when db is ready (if something depends on it)
 //TODO check if file exist
-restoreDB();
+const startPromise = restoreDB();
 
 module.exports = {
-    on : function(eventName,callback){
-        eventEmitter.on(eventName,callback);
-    },
-	list : function (tableName){		
-		return initTable(tableName)
-		.then( () => {
-			logger.trace(`list [table: ${tableName}]`);
-			return tables[tableName];
-		})
-        .catch(error => {
-            logger.error (`error on list ${error}`);
-        })
+	startPromise,
+	list : async function (tableName){		
+		await initTable(tableName)
+		logger.trace(`list [table: ${tableName}]`);
+		return tables[tableName];
 	},
 
-	save : function (tableName,row){
-		return initTable(tableName)
-		.then( () => {
-			const table = tables[tableName];			   
-            
-            const insert = !_.get(row,"id");
-            row = shared.preSave(row);
-            if (insert){
-                logger.trace(`New id [table: ${tableName}, id: ${row.id}]`);
-            } else {
-                row = _.merge(tables[tableName][row.id],row);
-            }                            
-            
-			table[row.id] = row;
-			//logger.trace("new table: %s", JSON.stringify(table));
-			return row;
-		}).then( row => {
-			return doBackup(tables);
-		}).then( () => {
-			return row;
-		});
+	save : async (tableName,row) => {
+		await initTable(tableName)
+		const table = tables[tableName];			   
+		
+		const insert = !_.get(row,"id");
+		row = shared.preSave(row);
+		if (insert){
+			logger.trace(`New id [table: ${tableName}, id: ${row.id}]`);
+		} else {
+			row = _.merge(tables[tableName][row.id],row);
+		}                            
+		
+		table[row.id] = row;
+		//logger.trace("new table: %s", JSON.stringify(table));
+		await doBackup(tables);
+		return row;
 	},
 
-	findById: function (tableName,id){
-		return initTable(tableName)
-		.then( () => {
-			return tables[tableName][id];
-		});
+	findById: async (tableName,id) => {
+		await initTable(tableName)
+		return tables[tableName][id];
 	},
 
-	remove: function (tableName, id){
-		return initTable(tableName)
-		.then( () => {
-			delete tables[tableName][id];
-		});
+	remove: async (tableName, id) => {
+		await initTable(tableName)
+		delete tables[tableName][id];
 	}
 }
