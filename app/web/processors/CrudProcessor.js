@@ -22,7 +22,7 @@ async function register(models) {
     });
   });
 
-  _.each(models, (model) => {
+  models.forEach((model) => {
     // List entities
     app.get('/crud/' + model.endpoint, async (req, res)=>{
       const dependencies = await loadDependencies(model, models);

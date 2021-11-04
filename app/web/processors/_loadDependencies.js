@@ -8,12 +8,12 @@ async function loadDependencies(modelToLoadDependencies, models) {
   let modelsToLoad = _.filter(modelToLoadDependencies.fields, (it) => {
     return _.get(it, 'meta.ref');
   });
-  modelsToLoad = _.map(modelsToLoad, (it) => {
-    return _.find(models, (i)=> {
+  modelsToLoad = modelsToLoad.map((it) => {
+    return models.find((i) => {
       return i.name == it.meta.ref;
     });
   });
-  return Promise.all(_.map(modelsToLoad, (it) => {
+  return Promise.all(modelsToLoad.map((it) => {
     logger.trace('loading %s', it.endpoint);
     return persistence.list(it.endpoint)
         .then((list) => {

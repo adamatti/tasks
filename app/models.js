@@ -1,7 +1,5 @@
 const Type = require('./lib').Type;
 const moment = require('moment');
-const _ = require('lodash')
-;
 
 function getTaskTree(task, dependencies) {
   if (!task) {
@@ -9,7 +7,7 @@ function getTaskTree(task, dependencies) {
   } if (!task.parent) {
     return task.name;
   } else {
-    const parentRow = _.find(dependencies.tasks, (it) => {
+    const parentRow = dependencies.tasks.find((it) => {
       return it.id == task.parent;
     });
     return getTaskTree(parentRow, dependencies) + '/' + task.name;

@@ -1,10 +1,8 @@
-const _ = require('lodash');
 const uuid = require('uuid-v4');
-const config = require('../config')
-;
+const config = require('../config');
 
 function preSave(row) {
-  if (!_.get(row, 'id')) { // insert
+  if (!row.id) { // insert
     row.id = uuid();
     if (!row.createdOn) {
       row.createdOn = new Date();
