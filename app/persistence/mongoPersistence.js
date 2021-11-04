@@ -1,4 +1,4 @@
-const logger = require('log4js').getLogger('mongo');
+const logger = require('../log')('mongo');
 const config = require('../config');
 const shared = require('./_shared');
 const EventEmitter = require('events');

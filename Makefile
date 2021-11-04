@@ -23,3 +23,8 @@ check: lint test
 
 run: 
 	@node app/index.js
+
+clean-install:
+	@rm -rf node_modules
+	@rm -rf bower_components
+	@yarn

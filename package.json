@@ -26,7 +26,6 @@
     "express-session": "^1.15.6",
     "jest": "^24.1.0",
     "lodash": "^4.17.5",
-    "log4js": "^6.3.0",
     "moment": "^2.22.1",
     "mongodb": "^3.0.7",
     "querystring": "^0.2.0",
