@@ -18,7 +18,7 @@ const connect = async () => {
 };
 
 function fromDB(row) {
-  logger.trace('fromDB', row);
+  // logger.trace('fromDB', row);
   if (row) {
     row.id = row._id;
     delete row['_id'];
@@ -37,7 +37,7 @@ function toDB(row) {
 
 const list = async (tableName) => {
   await connect();
-  logger.trace('list [tableName: %s]', tableName);
+  logger.trace(`list [tableName: ${tableName}]`, );
   const collection = db.collection(tableName);
   const rows = await collection.find().toArray();
 
@@ -46,7 +46,7 @@ const list = async (tableName) => {
 
 const save = async (tableName, row) => {
   await connect();
-  logger.trace('save [tableName: %s]', tableName);
+  logger.trace(`save [tableName: ${tableName}]`);
   const collection = db.collection(tableName);
   row = toDB(shared.preSave(row));
   await collection.updateOne({_id: row._id}, {$set: row}, {upsert: true});
@@ -55,7 +55,7 @@ const save = async (tableName, row) => {
 
 const findById = async (tableName, id) => {
   await connect();
-  logger.trace('findById [tableName: %s]', tableName);
+  logger.trace(`findById [tableName: ${tableName}]`);
   const collection = db.collection(tableName);
   const row = await collection.findOne({_id: id});
   return fromDB(row);
@@ -63,7 +63,7 @@ const findById = async (tableName, id) => {
 
 const deleteRow = async (tableName, id) => {
   await connect();
-  logger.trace('remove [tableName: %s]', tableName);
+  logger.trace(`remove [tableName: ${tableName}]`);
   const collection = db.collection(tableName);
   const row = await collection.deleteOne({_id: id});
   return fromDB(row);
