@@ -12,3 +12,14 @@ docker-sh: docker-build ## enter in the docker image
 
 docker-run: docker-build ## run app with docker
 	docker run -it --rm -p 8080:8080 tasks:latest
+
+lint: 
+	yarn lint --fix
+
+test: 
+	yarn test
+
+check: lint test
+
+run: 
+	@node app/index.js

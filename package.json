@@ -4,14 +4,16 @@
   "description": "project to track tasks",
   "main": "app/index.js",
   "engines": {
-    "node": "10.11.0",
-    "npm": "6.7.0"
+    "node": "16",
+    "npm": "7"
   },
   "scripts": {
     "start": "node app/index.js",
     "start:test": "PORT=8080 DB_FILE=/tmp/db.json node app/index.js",
     "postinstall": "bower install",
-    "test": "PORT=8080 DB_FILE=/tmp/db.json jest --coverage --silent"
+    "test": "PORT=8080 DB_FILE=/tmp/db.json jest --coverage --silent",
+    "coverage": "PORT=8080 DB_FILE=/tmp/db.json jest test --coverage",
+    "lint": "eslint 'app/**/*.js'"
   },
   "author": "Marcelo Adamatti",
   "license": "ISC",
@@ -24,15 +26,18 @@
     "express-session": "^1.15.6",
     "jest": "^24.1.0",
     "lodash": "^4.17.5",
+    "log4js": "^6.3.0",
     "moment": "^2.22.1",
     "mongodb": "^3.0.7",
-    "newrelic": "^4.0.0",
     "querystring": "^0.2.0",
     "string": "^3.3.1",
     "uuid-v4": "^0.1.0"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.14",
     "bower": "^1.8.4",
+    "eslint": "^8.1.0",
+    "eslint-config-google": "^0.14.0",
     "frisby": "^2.1.1"
   }
 }

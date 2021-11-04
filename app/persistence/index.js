@@ -1,7 +1,6 @@
-const config = require("../config");
+const config = require('../config');
 
-module.exports = config.mongo.url ? 
-    require("./mongoPersistence") : 
-    require("./filePersistence")
+module.exports = config.mongo.url ?
+    require('./mongoPersistence') :
+    require('./filePersistence')
 ;
-    

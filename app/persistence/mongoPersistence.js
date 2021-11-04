@@ -1,98 +1,81 @@
-const Promise = require('bluebird').Promise,
-      _ = require('lodash'),
-      logger = require('log4js').getLogger("mongo"),
-      config = require('../config'),
-      shared = require("./_shared"),
-      events = require("events"),
-      eventEmitter = new events(),
-      mongodb = require('mongodb'),
-      mongoClient = mongodb.MongoClient,
-	  collection = mongodb.Collection
-;
+const logger = require('log4js').getLogger('mongo');
+const config = require('../config');
+const shared = require('./_shared');
+const EventEmitter = require('events');
+const eventEmitter = new EventEmitter();
+const {MongoClient} = require('mongodb');
+const client = new MongoClient(config.mongo.url, {useUnifiedTopology: true});
 
-////////////////////////////////////////////////////////// Magic stuffs to make promises work
-//http://stackoverflow.com/questions/23771853/how-can-i-promisify-the-mongodb-native-javascript-driver-using-bluebird
-Promise.promisifyAll(collection.prototype);
-Promise.promisifyAll(mongoClient);
-collection.prototype._find = collection.prototype.find;
-collection.prototype.find = function() {
-    const cursor = this._find.apply(this, arguments);
-    cursor.toArrayAsync = Promise.promisify(cursor.toArray, cursor);
-    cursor.countAsync = Promise.promisify(cursor.count, cursor);
-    return cursor;
-}
-////////////////////////////////////////////////////////// 
-const db;
+let db;
 
-mongoClient.connectAsync(config.mongo.url).then (result => {
-    db = result;
-    logger.info("Database is up");
-    eventEmitter.emit("ready");
-}).catch(err => {
-    logger.error("Database is not ok", err);
-    process.exit(1)
-})
+const connect = async () => {
+  if (!db) {
+    await client.connect();
+    db = client.db(config.mongo.dbName);
+    logger.info('Database is up');
+    eventEmitter.emit('ready');
+  }
+};
 
-function fromDB(row){
-    logger.trace("fromDB",row);
-    if (row){
-        row.id = row._id;
-        delete row["_id"];
-    }
-    return row;
+function fromDB(row) {
+  logger.trace('fromDB', row);
+  if (row) {
+    row.id = row._id;
+    delete row['_id'];
+  }
+  return row;
 }
 
-function toDB(row){
-    logger.trace("toDB",row);
-    if (row){
-        row._id = row.id;
-        delete row["id"];
-    }
-    return row;
+function toDB(row) {
+  logger.trace('toDB', row);
+  if (row) {
+    row._id = row.id;
+    delete row['id'];
+  }
+  return row;
 }
 
-function errorHandler(error){
-    logger.error("error: ",error);
-}
+const list = async (tableName) => {
+  await connect();
+  logger.trace('list [tableName: %s]', tableName);
+  const collection = db.collection(tableName);
+  const rows = await collection.find().toArray();
+
+  return rows.map(fromDB);
+};
+
+const save = async (tableName, row) => {
+  await connect();
+  logger.trace('save [tableName: %s]', tableName);
+  const collection = db.collection(tableName);
+  row = toDB(shared.preSave(row));
+  await collection.updateOne({_id: row._id}, {$set: row}, {upsert: true});
+  return fromDB(row);
+};
+
+const findById = async (tableName, id) => {
+  await connect();
+  logger.trace('findById [tableName: %s]', tableName);
+  const collection = db.collection(tableName);
+  const row = await collection.findOne({_id: id});
+  return fromDB(row);
+};
+
+const deleteRow = async (tableName, id) => {
+  await connect();
+  logger.trace('remove [tableName: %s]', tableName);
+  const collection = db.collection(tableName);
+  const row = await collection.deleteOne({_id: id});
+  return fromDB(row);
+};
 
 module.exports = {
-    on : function(eventName,callback){
-        eventEmitter.on(eventName,callback);
-    },
-    list : function (tableName){
-        logger.trace("list [tableName: %s]",tableName);
-        const collection = db.collection(tableName);
-        return collection.find().toArrayAsync()
-        .then(rows => {
-            return _.map(rows, row =>{
-                return fromDB(row);
-            })    
-        })
-        .catch(errorHandler);
-    },
-    save : function (tableName,row){
-        logger.trace("save [tableName: %s]",tableName);
-        const collection = db.collection(tableName);
-        row = toDB(shared.preSave(row));
-        return collection.updateAsync({_id:row._id},row,{upsert:true})
-        .then ( result => {
-            return fromDB(row);
-        })
-        .catch(errorHandler);
-    },
-    findById: async function (tableName,id){
-        logger.trace("findById [tableName: %s]",tableName);
-        const collection = db.collection(tableName);
-        const row = await collection.findOneAsync({_id:id})
-        return fromDB(row);
-    },
-    remove: function (tableName, id){
-        logger.trace("remove [tableName: %s]",tableName);
-        const collection = db.collection(tableName);
-        return collection.removeAsync({_id: id})
-        .then(row => {
-            return fromDB(row);
-        })
-        .catch(errorHandler);
-    }
-}
+  on: async (eventName, callback) => {
+    eventEmitter.on(eventName, callback);
+  },
+  list,
+  save,
+  findById,
+  remove: deleteRow,
+  delete: deleteRow,
+};
